@@ -106,22 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchActivities();
   }
 
-  // Function to set difficulty filter
-  function setDifficultyFilter(difficulty) {
-    currentDifficulty = difficulty;
-
-    // Update active class
-    difficultyFilters.forEach((btn) => {
-      if (btn.dataset.difficulty === difficulty) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    });
-
-    fetchActivities();
-  }
-
   // Check if user is already logged in (from localStorage)
   function checkAuthentication() {
     const savedUser = localStorage.getItem("currentUser");

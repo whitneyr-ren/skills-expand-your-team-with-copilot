@@ -47,6 +47,7 @@ def get_activities(
         query["difficulty_level"] = difficulty
     elif difficulty == "All":
         # For "All" option, only return activities without a difficulty level
+        # (these activities are suitable for all skill levels)
         query["difficulty_level"] = {"$exists": False}
     
     # Query the database

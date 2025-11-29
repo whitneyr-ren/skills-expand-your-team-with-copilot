@@ -495,6 +495,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Function to create share URLs for an activity
+  function createShareUrls(name, description, schedule) {
+    const pageUrl = window.location.href.split('?')[0]; // Get base URL without query params
+    const shareText = `Check out ${name} at Mergington High School! ${description}`;
+    const hashtags = 'MergingtonHighSchool,ExtracurricularActivities';
+    
+    return {
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}&hashtags=${hashtags}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=${encodeURIComponent(shareText)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`,
+      email: `mailto:?subject=${encodeURIComponent(`Join me at ${name}`)}&body=${encodeURIComponent(`Hi!\n\nI wanted to share this activity with you:\n\n${name}\n${description}\n\nSchedule: ${schedule}\n\nCheck it out at: ${pageUrl}`)}`
+    };
+  }
+
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
@@ -521,6 +535,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
+
+    // Create share URLs
+    const shareUrls = createShareUrls(name, details.description, formattedSchedule);
 
     // Create activity tag
     const tagHtml = `
@@ -550,6 +567,25 @@ document.addEventListener("DOMContentLoaded", () => {
         <strong>Schedule:</strong> ${formattedSchedule}
         <span class="tooltip-text">Regular meetings at this time throughout the semester</span>
       </p>
+      <div class="social-share-buttons">
+        <span class="share-label">Share:</span>
+        <a href="${shareUrls.twitter}" target="_blank" rel="noopener noreferrer" class="share-button twitter-share tooltip" aria-label="Share on Twitter">
+          <span class="share-icon">🐦</span>
+          <span class="tooltip-text">Share on Twitter</span>
+        </a>
+        <a href="${shareUrls.facebook}" target="_blank" rel="noopener noreferrer" class="share-button facebook-share tooltip" aria-label="Share on Facebook">
+          <span class="share-icon">📘</span>
+          <span class="tooltip-text">Share on Facebook</span>
+        </a>
+        <a href="${shareUrls.linkedin}" target="_blank" rel="noopener noreferrer" class="share-button linkedin-share tooltip" aria-label="Share on LinkedIn">
+          <span class="share-icon">💼</span>
+          <span class="tooltip-text">Share on LinkedIn</span>
+        </a>
+        <a href="${shareUrls.email}" class="share-button email-share tooltip" aria-label="Share via Email">
+          <span class="share-icon">✉️</span>
+          <span class="tooltip-text">Share via Email</span>
+        </a>
+      </div>
       ${capacityIndicator}
       <div class="participants-list">
         <h5>Current Participants:</h5>
